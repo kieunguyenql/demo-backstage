@@ -88,8 +88,7 @@ spec:
         branchOrTagName: 'main'  # The branch to run this action on
         workflowInputs:
           LAMBDA_NAME: ${{ parameters.FunctionName }}
-          PACKAGE_NAME: "${{ parameters.FunctionName }}-python-packages"
-          AWS_DEFAULT_REGION: ${{ parameters.region }}
+          PACKAGE_NAME: "${{ parameters.FunctionName }}"
     # Register the new component in the Backstage catalog
     - id: register
       name: Register
