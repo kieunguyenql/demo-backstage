@@ -39,7 +39,7 @@ spec:
   # Parameters for setting up infras
     - title: Lambda configuration
       required:
-        - LAMBDA_NAME
+        - FunctionName
         - region
         - action
       properties:
