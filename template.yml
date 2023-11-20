@@ -84,7 +84,7 @@ spec:
       action: github:actions:dispatch
       input:
         workflowId: build.yml  # GitHub Action workflow ID
-        repoUrl: 'github.com/kieunguyenql/initial-repo'
+        repoUrl: 'github.com?repo=initial-repo&owner=kieunguyenql'
         branchOrTagName: 'main'  # The branch to run this action on
         workflowInputs:
           LAMBDA_NAME: ${{ parameters.FunctionName }}
