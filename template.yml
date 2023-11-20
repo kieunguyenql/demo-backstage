@@ -39,7 +39,7 @@ spec:
   # Parameters for setting up infras
     - title: Lambda configuration
       required:
-        - FunctionName
+        - LAMBDA_NAME
         - region
         - action
       properties:
@@ -90,8 +90,6 @@ spec:
           LAMBDA_NAME: ${{ parameters.FunctionName }}
           PACKAGE_NAME: "${{ parameters.FunctionName }}-python-packages"
           AWS_DEFAULT_REGION: ${{ parameters.region }}
-
-    # Register the new component in the Backstage catalog
     # Register the new component in the Backstage catalog
     - id: register
       name: Register
