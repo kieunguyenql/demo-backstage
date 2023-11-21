@@ -95,7 +95,7 @@ spec:
       name: Trigger GitHub Action
       action: github:actions:dispatch
       input:
-        workflowId: build.yml  # GitHub Action workflow ID
+        workflowId: dispatch_build.yml  # GitHub Action workflow ID
         repoUrl: 'github.com?repo=initial-repo&owner=kieunguyenql'
         branchOrTagName: 'main'  # The branch to run this action on
         workflowInputs:
