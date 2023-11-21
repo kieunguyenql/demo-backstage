@@ -75,7 +75,7 @@ data "aws_ami" "demo_backstage_aws_optimized_ecs" {
 resource "aws_launch_configuration" "demo_backstage_ecs_asg" {
   iam_instance_profile        = aws_iam_instance_profile.demo_backstage_ecs_agent.arn
   image_id                    = data.aws_ami.demo_backstage_aws_optimized_ecs.id
-  instance_type               = "t2.small"
+  instance_type               = "t2.medium"
   key_name                    = aws_key_pair.demo_backstage.key_name
 
   lifecycle {
@@ -119,6 +119,9 @@ resource "aws_lb_target_group" "demo_backstage_ecs_tgp" {
   port     = 7007
   protocol = "HTTP"
   vpc_id   = module.demo_vpc.aws_vpc_id
+  health_check {
+    port   = 7007
+  }
 }
 
 resource "aws_autoscaling_attachment" "demo_backstage_tgp_attachment" {
@@ -163,8 +166,8 @@ resource "aws_cloudwatch_log_group" "demo_backstage_log_group" {
 
 resource "aws_ecs_task_definition" "demo_backstage_task" {
   family                   = "demo_backstage-task"
-  cpu                      = 512
-  memory                   = 1024
+  cpu                      = 1024
+  memory                   = 2048
   execution_role_arn       = aws_iam_role.demo_backstage_task_execution_role.arn
   task_role_arn            = aws_iam_role.demo_backstage_ecs_task_iam_role.arn
   container_definitions    = jsonencode([{
@@ -172,16 +175,16 @@ resource "aws_ecs_task_definition" "demo_backstage_task" {
     image       = "${var.backstage_image_url}:${var.backstage_image_tag}"
     essential   = true
     environment: [
-      {"name": "BACKEND_URL", "value": "xxxxxxxxxxxx"},
-      {"name": "APP_DOMAIN", "value": "xxxxxxxxxxxxxxxxx"},
+      {"name": "BACKEND_URL", "value": "demo-backstage-alb-1606622169.ap-southeast-2.elb.amazonaws.com"},
+      {"name": "APP_DOMAIN", "value": "demo-backstage-alb-1606622169.ap-southeast-2.elb.amazonaws.com"},
       {"name": "PGSSLMODE", "value": "no-verify"},
-      {"name": "POSTGRES_HOST", "value": "xxxxxxxxxxxxxxxx"},
+      {"name": "POSTGRES_HOST", "value": "demo-backstage.cqehcltbupqo.ap-southeast-2.rds.amazonaws.com"},
       {"name": "POSTGRES_PORT", "value": "5432"},
       {"name": "POSTGRES_USER", "value": "postgres"},
-      {"name": "POSTGRES_PASSWORD", "value": "xxxxxxxx"},
-      {"name": "GITHUB_TOKEN", "value": "xxxxxxxxxxxx"},
-      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "xxxxxxxxxxxxx"},
-      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "xxxxxxxxxxxxxxxxxxxx"},
+      {"name": "POSTGRES_PASSWORD", "value": "backstage"},
+      {"name": "GITHUB_TOKEN", "value": "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"},
+      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "c981038e182c47ddb888"},
+      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "c4001683eeaae6d2fe127a096b8d67992b07275d"},
     ],
     logConfiguration = {
     logDriver = "awslogs"
@@ -205,4 +208,9 @@ resource "aws_ecs_service" "demo_backstage_ecs_service" {
   cluster         = aws_ecs_cluster.demo_backstage_ecs_cluster.id
   task_definition = aws_ecs_task_definition.demo_backstage_task.arn
   desired_count   = 1
+  force_new_deployment = true
+
+  triggers = {
+    redeployment = timestamp()
+  }
 }
