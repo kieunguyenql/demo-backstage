@@ -175,16 +175,16 @@ resource "aws_ecs_task_definition" "demo_backstage_task" {
     image       = "${var.backstage_image_url}:${var.backstage_image_tag}"
     essential   = true
     environment: [
-      {"name": "BACKEND_URL", "value": "xxxxxxxxxxxxxxxxxxxxxx"},
-      {"name": "APP_DOMAIN", "value": "xxx"},
+      {"name": "BACKEND_URL", "value": "xxxxxxxxxxxx"},
+      {"name": "APP_DOMAIN", "value": "xxxxxxxxxxxxxxxxx"},
       {"name": "PGSSLMODE", "value": "no-verify"},
-      {"name": "POSTGRES_HOST", "value": "xxxxxxxxxxxxxxxxxxxxxx"},
+      {"name": "POSTGRES_HOST", "value": "xxxxxxxxxxxxxxxx"},
       {"name": "POSTGRES_PORT", "value": "5432"},
       {"name": "POSTGRES_USER", "value": "postgres"},
-      {"name": "POSTGRES_PASSWORD", "value": "backstage"},
-      {"name": "GITHUB_TOKEN", "value": "xxxxxxxxxxxxxxxxxxxx"},
-      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "xxxxxxxxxxxxxxx"},
-      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "xxxxxxxxxxxxx"},
+      {"name": "POSTGRES_PASSWORD", "value": "xxxxxxxx"},
+      {"name": "GITHUB_TOKEN", "value": "xxxxxxxxxxxx"},
+      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "xxxxxxxxxxxxx"},
+      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "xxxxxxxxxxxxxxxxxxxx"},
     ],
     logConfiguration = {
     logDriver = "awslogs"
@@ -210,7 +210,5 @@ resource "aws_ecs_service" "demo_backstage_ecs_service" {
   desired_count   = 1
   force_new_deployment = true
 
-  triggers = {
-    redeployment = timestamp()
   }
-}
+
