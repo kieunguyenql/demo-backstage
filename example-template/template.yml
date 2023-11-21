@@ -37,16 +37,28 @@ spec:
             allowedHosts:
               - github.com
   # Parameters for setting up infras
-    - title: Lambda configuration
+    - title: Infras configuration
       required:
-        - FunctionName
+        - function_name
+        - dynamodb_partition_key
+        - apigw_stage_name
         - region
         - action
       properties:
-        FunctionName:
+        function_name:
           title: FunctionName
           type: string
           description: The name of your lambda function
+          ui:autofocus: true
+        dynamodb_partition_key:
+          title: DynamoTable Partition key
+          type: string
+          description: The name of partition key in dynamotable 
+          ui:autofocus: true
+        apigw_stage_name:
+          title: Stage of API gateway
+          type: string
+          description: The name of stage(env) of API gateway
           ui:autofocus: true
         region:
           title: AWS Region
@@ -87,8 +99,11 @@ spec:
         repoUrl: 'github.com?repo=initial-repo&owner=kieunguyenql'
         branchOrTagName: 'main'  # The branch to run this action on
         workflowInputs:
-          lambdaname: ${{ parameters.FunctionName }}
-          packagename: "${{ parameters.FunctionName }}"
+          packagename: "${{ parameters.function_name }}"
+          function_name: ${{ parameters.function_name }}
+          dynamodb_partition_key: ${{ parameters.dynamodb_partition_key }}
+          apigw_stage_name: ${{ parameters.apigw_stage_name }}
+
     # Register the new component in the Backstage catalog
     - id: register
       name: Register
