@@ -175,16 +175,16 @@ resource "aws_ecs_task_definition" "demo_backstage_task" {
     image       = "${var.backstage_image_url}:${var.backstage_image_tag}"
     essential   = true
     environment: [
-      {"name": "BACKEND_URL", "value": "demo-backstage-alb-1606622169.ap-southeast-2.elb.amazonaws.com"},
-      {"name": "APP_DOMAIN", "value": "demo-backstage-alb-1606622169.ap-southeast-2.elb.amazonaws.com"},
+      {"name": "BACKEND_URL", "value": "xxxxxxxxxxxxxxxxxxxxxx"},
+      {"name": "APP_DOMAIN", "value": "xxx"},
       {"name": "PGSSLMODE", "value": "no-verify"},
-      {"name": "POSTGRES_HOST", "value": "demo-backstage.cqehcltbupqo.ap-southeast-2.rds.amazonaws.com"},
+      {"name": "POSTGRES_HOST", "value": "xxxxxxxxxxxxxxxxxxxxxx"},
       {"name": "POSTGRES_PORT", "value": "5432"},
       {"name": "POSTGRES_USER", "value": "postgres"},
       {"name": "POSTGRES_PASSWORD", "value": "backstage"},
-      {"name": "GITHUB_TOKEN", "value": "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"},
-      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "c981038e182c47ddb888"},
-      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "c4001683eeaae6d2fe127a096b8d67992b07275d"},
+      {"name": "GITHUB_TOKEN", "value": "xxxxxxxxxxxxxxxxxxxx"},
+      {"name": "AUTH_GITHUB_CLIENT_ID", "value": "xxxxxxxxxxxxxxx"},
+      {"name": "AUTH_GITHUB_CLIENT_SECRET", "value": "xxxxxxxxxxxxx"},
     ],
     logConfiguration = {
     logDriver = "awslogs"
